@@ -18,7 +18,7 @@ jobs:
         id-token: write
       environment:
         name: ${{ inputs.environment }}
-        url: "https://techexcel-${{ inputs.environment }}.azurewebsites.net/"
+        url: "https://ghwxvgb4jngfa-${{ inputs.environment }}.azurewebsites.net/"
       steps:
         - uses: azure/login@v2.1.1
           with:
