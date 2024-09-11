@@ -94,22 +94,14 @@ namespace RazorPagesTestSample.Pages
 
      
         
-        public static void WriteToDirectory(ZipArchiveEntry entry, string destDirectory)
-        {
-            // Get the full path of the destination file
-            string destFileName = Path.Combine(destDirectory, entry.FullName);
-        
-            // Ensure the destination directory exists
-            Directory.CreateDirectory(Path.GetDirectoryName(destFileName));
-        
-            // Check if the destination file path is within the intended directory
-            if (!destFileName.StartsWith(Path.GetFullPath(destDirectory), StringComparison.OrdinalIgnoreCase))
-            {
-                throw new InvalidOperationException("Attempt to extract file outside of the destination directory.");
-            }
-        
-            // Extract the file
-            entry.ExtractToFile(destFileName, overwrite: true);
-        }
+ public static void WriteToDirectory(ZipArchiveEntry entry, string destDirectory)
+ {
+     string destFileName = Path.GetFullPath(Path.Combine(destDirectory, entry.FullName));
+     string fullDestDirPath = Path.GetFullPath(destDirectory + Path.DirectorySeparatorChar);
+     if (!destFileName.StartsWith(fullDestDirPath)) {
+         throw new System.InvalidOperationException("Entry is outside the target dir: " + destFileName);
+     }
+     entry.ExtractToFile(destFileName);
+ }
     }
 }
